@@ -5,6 +5,8 @@
 <hibernate-configuration>
 	<session-factory>
 		<property name="show_sql">true</property>
-        <mapping package="domain"/>
+        <property name="hbm2ddl.auto">create-drop</property>
+        <property name="current_session_context_class">thread</property>
+        <mapping class="domain.Fiddle"/>
     </session-factory>
 </hibernate-configuration>
