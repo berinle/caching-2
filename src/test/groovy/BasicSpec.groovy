@@ -25,4 +25,29 @@ class BasicSpec extends Specification {
 		then:
         list.size() > 0
 	}
+    
+    def "test cache"(){
+        setup:
+        def s = sessionFactory.getCurrentSession()
+        s.beginTransaction()
+        100.times {
+            def f = new Fiddle(name: "fiddle" + System.currentTimeMillis())
+            s.save(f)
+            if(it % 20 == 0){
+                s.flush()
+            }
+        }
+        def list = s.createCriteria(Fiddle.class).list()
+        s.getTransaction().commit()
+        
+        when:
+        s = sessionFactory.getCurrentSession()
+        s.beginTransaction()
+        def someFiddle = s.get(Fiddle.class, 50L)
+        s.getTransaction().commit()
+
+        then:
+        list.size() > 50
+        someFiddle.name.contains("fiddle")
+    }
 }
