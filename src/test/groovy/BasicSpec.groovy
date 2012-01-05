@@ -2,7 +2,11 @@ import spock.lang.*
 import org.hibernate.SessionFactory
 import org.hibernate.cfg.AnnotationConfiguration
 import domain.Fiddle
+import groovy.util.logging.Slf4j
+import net.sf.ehcache.CacheManager
+import net.sf.ehcache.Element
 
+@Slf4j
 class BasicSpec extends Specification {
     SessionFactory sessionFactory
 
@@ -39,15 +43,45 @@ class BasicSpec extends Specification {
         }
         def list = s.createCriteria(Fiddle.class).list()
         s.getTransaction().commit()
-        
+
+        def someFiddle
+
         when:
         s = sessionFactory.getCurrentSession()
         s.beginTransaction()
-        def someFiddle = s.get(Fiddle.class, 50L)
+        3.times {
+            someFiddle = s.get(Fiddle.class, 50L)
+            println(someFiddle.toString())
+            Thread.sleep(1000)
+        }
         s.getTransaction().commit()
 
         then:
         list.size() > 50
-        someFiddle.name.contains("fiddle")
+        someFiddle?.name.contains("fiddle")
+    }
+    
+    def "test manual entries"(){
+        //see http://www.whatsabyte.com/P1/byteconverter.htm
+        setup:
+        def cache = CacheManager.instance.getCache("domain.Fiddle")
+        
+        when:
+        def numOfElems = 10000
+        numOfElems.times {
+            cache.put(new Element(it, "some value"+System.currentTimeMillis()))
+        }
+        Thread.sleep(200)
+        def firstelem = cache.get(1)
+        def lastelem = cache.get(numOfElems-1)
+        println "${cache.calculateInMemorySize()} b"
+        println "${(cache.calculateInMemorySize() / 1024)} kb"
+        println "${((cache.calculateInMemorySize()/(1024 * 1024)))} mb"
+        
+        then:
+        cache.isStatisticsEnabled()
+        firstelem
+        lastelem
+        
     }
 }

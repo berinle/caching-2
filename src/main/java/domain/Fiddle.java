@@ -33,4 +33,9 @@ class Fiddle implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return String.format("Fiddle{name='%s'}", name);
+    }
 }

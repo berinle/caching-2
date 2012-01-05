@@ -1,4 +1,9 @@
-<ehcache>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="true"
+         monitoring="autodetect"
+         dynamicConfig="true"
+         maxBytesLocalHeap="3m">
 
     <diskStore path="java.io.tmpdir"/>
 
@@ -9,8 +14,8 @@
         timeToIdleSeconds="120"
         timeToLiveSeconds="120"
         overflowToDisk="true"
-        />
+        statistics="true"/>
 
-    <cache name="domain.Fiddle" maxElementsInMemory="20" eternal="false" timeToIdleSeconds="5" timeToLiveSeconds="10" overflowToDisk="false"/>
+    <cache name="domain.Fiddle" statistics="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="false"/>
 
 </ehcache>
