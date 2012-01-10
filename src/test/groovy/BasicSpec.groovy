@@ -77,9 +77,13 @@ class BasicSpec extends Specification {
         println "${cache.calculateInMemorySize()} b"
         println "${(cache.calculateInMemorySize() / 1024)} kb"
         println "${((cache.calculateInMemorySize()/(1024 * 1024)))} mb"
+
+        assert cache.isStatisticsEnabled()
+
+        Thread.sleep(3000)
+        CacheManager.instance.shutdown()
         
         then:
-        cache.isStatisticsEnabled()
         firstelem
         lastelem
         
