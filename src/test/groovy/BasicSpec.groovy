@@ -84,4 +84,31 @@ class BasicSpec extends Specification {
         lastelem
         
     }
+
+    def "test memory resizing"(){
+        def cache = CacheManager.instance.getCache "stingy"
+
+        when:
+        1000.times {
+            cache.put(new Element(it, "" + System.currentTimeMillis()))
+            println "${(cache.calculateInMemorySize() / 1024)} kb"
+        }
+
+        then:
+        cache.calculateInMemorySize() / 1024  <= 10
+    }
+
+    //rookie cache should not grow past 153.6kb
+    def "test percentage resizing"(){
+        def cache = CacheManager.instance.getCache "rookie"
+
+        when:
+        1000.times {
+            cache.put(new Element(it, "" + System.currentTimeMillis()))
+            println "${(cache.calculateInMemorySize() / 1024)} kb"
+        }
+
+        then:
+        cache.calculateInMemorySize() / 1024  <= 153.6
+    }
 }

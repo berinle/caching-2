@@ -12,7 +12,7 @@ dependencies {
 	'org.slf4j:slf4j-log4j12:1.6.4',
 	'javassist:javassist:3.12.1.GA'
 	
-	compile ('net.sf.ehcache:ehcache:2.5.0'){
+	compile ('net.sf.ehcache:ehcache:2.5.1'){
 		exclude module:'ehcache-terracotta'
 	}
 }
@@ -26,5 +26,5 @@ task makeDirs(description:'make all dirs for project setup') << {
 }
 
 task wrap(type:Wrapper, description:"create a gradlew") {
-    gradleVersion = '1.0-milestone-7-20111220000018+0100'	
+    gradleVersion = '1.0-milestone-8a'
 }

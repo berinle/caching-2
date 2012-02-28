@@ -17,5 +17,9 @@
         statistics="true"/>
 
     <cache name="domain.Fiddle" statistics="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="false"/>
+    <!-- stingy should only occupy 10kb of total cache -->
+    <cache name="stingy" maxBytesLocalHeap="10k" statistics="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="false"/>
+    <!-- rookie should only occupy 5% of the assigned 3mb i.e. 153.6 kb -->
+    <cache name="rookie" maxBytesLocalHeap="5%" statistics="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="false"/>
 
 </ehcache>
