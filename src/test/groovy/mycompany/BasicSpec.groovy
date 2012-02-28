@@ -1,3 +1,5 @@
+package mycompany
+
 import spock.lang.*
 import org.hibernate.SessionFactory
 import org.hibernate.cfg.AnnotationConfiguration
@@ -51,7 +53,7 @@ class BasicSpec extends Specification {
         s.beginTransaction()
         3.times {
             someFiddle = s.get(Fiddle.class, 50L)
-            println(someFiddle.toString())
+            log.debug(someFiddle.toString())
             Thread.sleep(1000)
         }
         s.getTransaction().commit()
@@ -74,9 +76,9 @@ class BasicSpec extends Specification {
         Thread.sleep(200)
         def firstelem = cache.get(1)
         def lastelem = cache.get(numOfElems-1)
-        println "${cache.calculateInMemorySize()} b"
-        println "${(cache.calculateInMemorySize() / 1024)} kb"
-        println "${((cache.calculateInMemorySize()/(1024 * 1024)))} mb"
+        log.info "${cache.calculateInMemorySize()} b"
+        log.info "${(cache.calculateInMemorySize() / 1024)} kb"
+        log.info "${((cache.calculateInMemorySize()/(1024 * 1024)))} mb"
 
         assert cache.isStatisticsEnabled()
 
