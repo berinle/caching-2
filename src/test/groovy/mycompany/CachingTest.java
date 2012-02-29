@@ -57,9 +57,9 @@ public class CachingTest {
         Session session = sessionFactory.openSession();
         session.beginTransaction();
         TestTimer timer = new TestTimer("iteration");
-        List list = session.createQuery("from Fiddle").list();
+        List list = session.createQuery("from Fiddle").setMaxResults(2000).list();
         timer.done();
-        Assert.that(list.size() == 10000);
+        Assert.that(list.size() == 2000);
         session.getTransaction().commit();
         session.close();
     }
