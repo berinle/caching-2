@@ -49,6 +49,7 @@ public class CachingTest {
         timer.done();
         Assert.notNull(fiddle);
         session.getTransaction().commit();
+        session.close();
     }
 
     @Test(threadPoolSize = 5, invocationCount = 25)
@@ -60,5 +61,6 @@ public class CachingTest {
         timer.done();
         Assert.that(list.size() == 10000);
         session.getTransaction().commit();
+        session.close();
     }
 }
