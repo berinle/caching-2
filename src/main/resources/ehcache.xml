@@ -2,34 +2,16 @@
          xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
          updateCheck="true"
          monitoring="autodetect"
-         dynamicConfig="true"
-         maxBytesLocalHeap="3m">
+         dynamicConfig="true">
 
     <diskStore path="java.io.tmpdir"/>
 
-    <cacheManagerPeerProviderFactory
-            class="net.sf.ehcache.distribution.RMICacheManagerPeerProviderFactory"
-            properties="peerDiscovery=automatic,
-                        multicastGroupAddress=230.0.0.1,
-                        multicastGroupPort=4446, timeToLive=32"
-            propertySeparator=","
-            />
+    <defaultCache maxEntriesLocalHeap="1000" eternal="false" timeToIdleSeconds="120" timeToLiveSeconds="120" overflowToDisk="true" statistics="true"/>
 
-    <cacheManagerPeerListenerFactory
-            class="net.sf.ehcache.distribution.RMICacheManagerPeerListenerFactory"/>
+    <!-- cache that will hold fiddle instances -->
+    <cache name="domain.Fiddle" maxElementsInMemory="20000" statistics="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="false"/>
 
-    <defaultCache
-        maxElementsInMemory="10000"
-        eternal="false"
-        timeToIdleSeconds="120"
-        timeToLiveSeconds="120"
-        overflowToDisk="true"
-        statistics="true"/>
-
-    <cache name="domain.Fiddle" statistics="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="false"/>
-    <!-- stingy should only occupy 10kb of total cache -->
-    <cache name="stingy" maxBytesLocalHeap="10k" statistics="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="false"/>
-    <!-- rookie should only occupy 5% of the assigned 3mb i.e. 153.6 kb -->
-    <cache name="rookie" maxBytesLocalHeap="5%" statistics="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="false"/>
+    <!-- cache that expires elements after 3secs -->
+    <cache name="timedCache" maxEntriesLocalHeap="100" statistics="true" eternal="false" timeToIdleSeconds="2" timeToLiveSeconds="3" overflowToDisk="false"/>
 
 </ehcache>

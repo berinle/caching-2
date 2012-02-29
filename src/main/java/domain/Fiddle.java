@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Entity
 @Table(name="FIDDLE")
 @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-class Fiddle implements Serializable {
+public class Fiddle implements Serializable {
 	@Id 
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;

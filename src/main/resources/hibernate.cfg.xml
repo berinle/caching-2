@@ -7,15 +7,13 @@
         <property name="hbm2ddl.auto">create-drop</property>
         <property name="current_session_context_class">thread</property>
 
-        <!-- turn off caching
-        <property name="cache.use_second_level_cache">false</property>
-        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
-        -->
+        <!-- turn off caching -->
+        <!--<property name="cache.use_second_level_cache">false</property>
+        <property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>-->
 
         <!-- turn on caching -->
         <property name="cache.use_second_level_cache">true</property>
-        <property name="cache.provider_class">net.sf.ehcache.hibernate.SingletonEhCacheProvider</property>
-        <!--<property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</property>-->
+        <property name="hibernate.cache.region.factory_class">net.sf.ehcache.hibernate.EhCacheRegionFactory</property>
 
         <mapping class="domain.Fiddle"/>
     </session-factory>

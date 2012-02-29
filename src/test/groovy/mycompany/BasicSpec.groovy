@@ -16,105 +16,24 @@ class BasicSpec extends Specification {
         sessionFactory = new AnnotationConfiguration().configure().buildSessionFactory()
     }
 
-	def "test basic insert"(){
-        setup:
-        def f = new Fiddle(name: 'tommy')
-
-        def s = sessionFactory.getCurrentSession()
-        
-        when:
-        s.beginTransaction()
-        s.save(f)
-        def list = s.createCriteria(Fiddle.class).list()
-        s.getTransaction().commit()
-        
-		then:
-        list.size() > 0
-	}
-    
-    def "test cache"(){
-        setup:
-        def s = sessionFactory.getCurrentSession()
-        s.beginTransaction()
-        100.times {
-            def f = new Fiddle(name: "fiddle" + System.currentTimeMillis())
-            s.save(f)
-            if(it % 20 == 0){
-                s.flush()
-            }
-        }
-        def list = s.createCriteria(Fiddle.class).list()
-        s.getTransaction().commit()
-
-        def someFiddle
+    def "test eviction policy"(){
+        def cache = CacheManager.instance.getCache("timedCache")
 
         when:
-        s = sessionFactory.getCurrentSession()
-        s.beginTransaction()
-        3.times {
-            someFiddle = s.get(Fiddle.class, 50L)
-            log.debug(someFiddle.toString())
-            Thread.sleep(1000)
-        }
-        s.getTransaction().commit()
-
-        then:
-        list.size() > 50
-        someFiddle?.name.contains("fiddle")
-    }
-    
-    def "test manual entries"(){
-        //see http://www.whatsabyte.com/P1/byteconverter.htm
-        setup:
-        def cache = CacheManager.instance.getCache("domain.Fiddle")
-        
-        when:
-        def numOfElems = 10000
-        numOfElems.times {
-            cache.put(new Element(it, "some value"+System.currentTimeMillis()))
-        }
-        Thread.sleep(200)
-        def firstelem = cache.get(1)
-        def lastelem = cache.get(numOfElems-1)
-        log.info "${cache.calculateInMemorySize()} b"
-        log.info "${(cache.calculateInMemorySize() / 1024)} kb"
-        log.info "${((cache.calculateInMemorySize()/(1024 * 1024)))} mb"
-
-        assert cache.isStatisticsEnabled()
-
-        Thread.sleep(3000)
-        CacheManager.instance.shutdown()
-        
-        then:
-        firstelem
-        lastelem
-        
-    }
-
-    def "test memory resizing"(){
-        def cache = CacheManager.instance.getCache "stingy"
-
-        when:
-        1000.times {
-            cache.put(new Element(it, "" + System.currentTimeMillis()))
-            println "${(cache.calculateInMemorySize() / 1024)} kb"
+        10.times {
+            cache.put(new Element(it, "$it"))
         }
 
         then:
-        cache.calculateInMemorySize() / 1024  <= 10
-    }
-
-    //rookie cache should not grow past 153.6kb
-    def "test percentage resizing"(){
-        def cache = CacheManager.instance.getCache "rookie"
+        cache.size == 10
+        cache.get(5)
 
         when:
-        1000.times {
-            cache.put(new Element(it, "" + System.currentTimeMillis()))
-            println "${(cache.calculateInMemorySize() / 1024)} kb"
-        }
+        Thread.sleep(4000)
+        cache.getKeys().each{ cache.get(it) }
 
         then:
-        cache.calculateInMemorySize() / 1024  <= 153.6
+        cache.size == 0
+
     }
 }
