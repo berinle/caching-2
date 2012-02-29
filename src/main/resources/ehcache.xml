@@ -32,4 +32,10 @@
     <!-- rookie should only occupy 5% of the assigned 3mb i.e. 153.6 kb -->
     <cache name="rookie" maxBytesLocalHeap="5%" statistics="true" eternal="false" timeToIdleSeconds="300" timeToLiveSeconds="600" overflowToDisk="false"/>
 
+
+    <cache eternal="false" name="replicatedCache" overflowToDisk="false">
+        <cacheEventListenerFactory class="net.sf.ehcache.distribution.RMICacheReplicatorFactory"
+                                   properties="asynchronousReplicationIntervalMillis=300"/>
+    </cache>
+
 </ehcache>
