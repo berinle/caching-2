@@ -1,0 +1,17 @@
+#Caching with Ehcache
+
+Sample project to illustrate caching concepts with Ehcache
+
+Study bundled test cases to follow through. Also, it focuses on the memory sizing feature introduced in Ehcache 2.5.x
+
+* Slide is contained in **slide** folder
+* **master** branch contains test cases illustrating memory sizing
+* **basic** branch contains test cases on basic caching (w/out resizing) and eviction policy
+
+##Resources
+
+1. [Ehcache with Hibernate 2LC](http://www.ehcache.org/documentation/user-guide/hibernate "Ehcache with Hibernate 2LC")
+2. [Cache Sizing](http://www.ehcache.org/documentation/configuration/cache-size "Cache Sizing")
+3. [Easy Java Performance Tuning Management](http://dsoguy.blogspot.com/2011/07/easy-java-performance-tuning-manage.html "Easy Java Performance Tuning Management")
+4. [2LC with Hibernate](http://docs.jboss.org/hibernate/core/3.6/reference/en-US/html_single/#performance-cache, "2LC with Hibernate")
+
