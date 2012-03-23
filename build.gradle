@@ -3,9 +3,9 @@ apply plugin:'idea'
 apply plugin:'eclipse'
 
 repositories { 
-	flatDir {
+	/*flatDir {
         dirs 'lib'
-    }
+    }*/
 	mavenCentral() 
 }
 
@@ -17,7 +17,7 @@ dependencies {
 	'org.spockframework:spock-core:0.5-groovy-1.8',
 	'org.slf4j:slf4j-log4j12:1.6.4',
 	'javassist:javassist:3.12.1.GA',
-	':log4jdbc4-1.2@jar'
+	'org.lazyluke:log4jdbc-remix:0.2.7'
 
 	
 	compile ('net.sf.ehcache:ehcache:2.5.1'){
