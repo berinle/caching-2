@@ -1,4 +1,4 @@
-#Caching with Ehcache
+#Caching with Ehcache [![Build Status](https://drone.io/github.com/berinle/caching-2/status.png)](https://drone.io/github.com/berinle/caching-2/latest)
 
 Sample project to illustrate caching concepts with Ehcache
 
